@@ -23,7 +23,7 @@ class CJ{
     }
     static TrackingDataToJSON($){ // test impl to see if it works
         let res = {data:[]};
-        $('td').each(function(index, element){res.push($(element).text());});
+        $('td').each(function(index, element){res.data.push($(element).text());});
         //slightly different from jquery. cannot access by index. $('td').eq(0) works, though.
         return res;
     }

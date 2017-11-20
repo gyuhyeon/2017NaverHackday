@@ -34,3 +34,5 @@ class CJ{
         console.log("Something went wrong : " + err);
     }
 }
+
+module.exports={CJ:CJ};

@@ -1,6 +1,9 @@
 //main script that will be used for query/signin/dashboard functionalities
 $(document).ready(function() {
 	$('#search').click(function(event){
+		$('#query').submit();
+	});
+	$('#query').submit(function(event){
 		var formData = {
 			trackingnum : $('input[name="trackingnum"]').val()
 		};
@@ -19,6 +22,8 @@ $(document).ready(function() {
 				console.log(data); 
 				// here we will handle errors and validation messages
 			});
+		
+		event.preventDefault();
 	});
 });
 

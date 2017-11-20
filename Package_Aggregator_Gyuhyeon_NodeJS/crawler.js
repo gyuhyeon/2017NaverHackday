@@ -22,11 +22,9 @@ class CJ{
         return request(options).catch(this.ErrorHandler);
     }
     static TrackingDataToJSON($){ // test impl to see if it works
-        let t = $('td');
         let res = {data:[]};
-        for(let i = 0; i<t.length; ++i){
-            res.data.push(t[i].innerText);
-        }
+        $('td').each(function(index, element){res.push($(element).text());});
+        //slightly different from jquery. cannot access by index. $('td').eq(0) works, though.
         return res;
     }
     static ErrorHandler(err){

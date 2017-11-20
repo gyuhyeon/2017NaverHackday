@@ -15,7 +15,7 @@ class CJ{
             qs: qs,
             encoding: null,
             transform: function (body){
-                return iconv.decode(cheerio.load(body),"utf-8"); // using transform option, return cheerio rather than the request object I guess?
+                return cheerio.load(iconv.decode(body,"utf-8")); // using transform option, return cheerio rather than the request object I guess?
             }
         };
         return request(options).catch(this.ErrorHandler);

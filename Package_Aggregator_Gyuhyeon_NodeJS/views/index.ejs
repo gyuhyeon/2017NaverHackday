@@ -48,13 +48,13 @@
 				<section id="main" class="container">
 
 					<section class="box special">
-						<form method="post" action="#">
+						<form name="query" id="query" method="post" action="#">
 							<div class="row uniform 50%">
 								<div class="9u 12u(mobilep)">
-									<input type="text" name="query" id="query" value="" placeholder="Query" />
+									<input type="text" name="trackingnum" id="trackingnum" value="" placeholder="송장번호를 입력하세요." />
 								</div>
 								<div class="3u 12u(mobilep)">
-									<input type="submit" value="Search" class="button" />
+									<input type="button" value="Search" id="search" class="button" />
 								</div>
 							</div>
 						</form>
@@ -84,6 +84,5 @@
 			<script src="/assets/js/util.js"></script>
 			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
 			<script src="/assets/js/main.js"></script>
-
 	</body>
 </html>

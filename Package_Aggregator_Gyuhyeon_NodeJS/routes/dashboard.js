@@ -1,11 +1,11 @@
-var express = require('express');
-var mysql = require('mysql');
-var router = express.Router(); //so that we can use the 'router'
-var mysqlConfig = {
-	'host' : 'url from external file',
-	'user' : 'id from external file', 'password' : 'pw from external file', 'database' : 'dbname',
-}
+const express = require('express');
+const mysql = require('mysql');
+const router = express.Router(); //so that we can use the 'router'
+const config = require('../config');
+const mysqlConfig = config.mysqlConfig;
 //var connection = mysql.createConnection(mysqlConfig);
+
+console.log(mysqlConfig); //testing config import
 
 //New member join request through POST with variables 'jointype, user_id, user_pw, name, cellphone' in json.
 

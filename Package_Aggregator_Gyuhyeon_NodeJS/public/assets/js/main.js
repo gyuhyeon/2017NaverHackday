@@ -1,3 +1,31 @@
+//main script that will be used for query/signin/dashboard functionalities
+$(document).ready(function() {
+	$('#search').click(function(event){
+		$('#query').submit();
+		var formData = {
+			trackingnum : $('input[name="trackingnum"]').val()
+		};
+
+		// process the form
+		$.ajax({
+			type        : 'GET', // define the type of HTTP verb we want to use (GET for our form)
+			url         : 'query', // the url where we want to GET
+			data        : formData, // our data object
+			dataType    : 'json', // what type of data do we expect back from the server
+			encode      : true
+		})
+			// using the done promise callback
+			.done(function(data) {
+				// log data to the console so we can see
+				console.log(data); 
+				// here we will handle errors and validation messages
+			});
+	});
+});
+
+
+
+//main.js for site rendering. safely scoped in anon function.
 (function($) {
 
 	skel.breakpoints({

@@ -1,16 +1,17 @@
-var express = require('express')
-var http = require('http');
-var path = require('path');
-var logger = require('morgan');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-
-var index = require('./routes/index');
-var dashboard = require('./routes/dashboard')
-var login = require('./routes/login');
+const express = require('express');
+const http = require('http');
+const path = require('path');
+const logger = require('morgan');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 
 
-var app = express();
+const index = require('./routes/index');
+const dashboard = require('./routes/dashboard');
+const login = require('./routes/login');
+
+const app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

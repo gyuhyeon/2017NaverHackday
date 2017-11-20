@@ -10,7 +10,8 @@ var mysqlConfig = {
 //New member join request through POST with variables 'jointype, user_id, user_pw, name, cellphone' in json.
 
 router.get('/', function(req, res, next){
-    res.send("Site under construction here");
+	// TODO : if() if not logged in, send alert and redirect
+	res.render('dashboard', {title: '배송조회 서비스'});
 });
 
 router.post('/', function(req, res, next){

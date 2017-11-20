@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 
 var index = require('./routes/index');
 var dashboard = require('./routes/dashboard')
+var login = require('./routes/login');
 
 
 var app = express();
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'public'))); //the folder "public" s
 //website routing(requests)
 app.use('/', index); //show main landing page & search bar
 app.use('/dashboard', dashboard); //show user 'profiles'
+app.use('/login', login);
 
 
 

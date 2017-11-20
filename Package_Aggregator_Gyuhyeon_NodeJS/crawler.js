@@ -5,22 +5,20 @@ const cheerio = require('cheerio');
 const config = require('./config');
 
 class CJ{
-    constructor(){
-        this.uri = "http://nplus.doortodoor.co.kr/web/detail.jsp";
-        this.PAGE_ENCODING = 'utf-8';
-        // this.uri = "https://www.doortodoor.co.kr/parcel/doortodoor.do"; bad form. above is much more restful.
+    static GetCJBaseURL(){
+        return "http://nplus.doortodoor.co.kr/web/detail.jsp";
     }
     static CreateQueryPromise(trackingnum){ // usage : CreateQueryPromise(tn).then(($)=>{});
-        qs = {slipno:trackingnum};
+        let qs = {slipno:trackingnum};
         let options = {
-            uri: this.uri,
+            uri: this.GetCJBaseURL(),
             qs: qs,
             encoding: null,
             transform: function (body){
                 return iconv.decode(cheerio.load(body),PAGE_ENCODING); // using transform option, return cheerio rather than the request object I guess?
             }
         };
-        return request(options).catch(CJ.ErrorHandler);
+        return request(options).catch(this.ErrorHandler);
     }
     static TrackingDataToJSON($){ // test impl to see if it works
         let t = $('td');

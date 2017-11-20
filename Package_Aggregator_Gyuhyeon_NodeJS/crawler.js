@@ -15,7 +15,8 @@ class CJ{
             qs: qs,
             encoding: null,
             transform: function (body){
-                return cheerio.load(iconv.decode(body,"utf-8")); // using transform option, return cheerio rather than the request object I guess?
+                return cheerio.load(iconv.decode(body,"EUC-KR")); // using transform option, return cheerio rather than the request object I guess?
+                // CJ page is EUC-KR. Always look at headers first.
             }
         };
         return request(options).catch(this.ErrorHandler);

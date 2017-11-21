@@ -1,6 +1,10 @@
-var express = require('express');
-var router = express.Router();
-const crawler = require('../crawler');
+const express = require('express');
+const router = express.Router();
+
+const mysql = require('mysql');
+const CJ = require('../crawlerAPI/CJ');
+
+const config = require('../config');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,8 +15,8 @@ router.get('/index', function(req, res, next) {
 });
 
 router.get('/query', function(req, res, next){
-    crawler.CJ.CreateQueryPromise(req.query.trackingnum)
-        .then( ($) => {res.json(crawler.CJ.TrackingDataToJSON($))} );
+    CJ.CreateQueryPromise(req.query.trackingnum)
+        .then( ($) => {res.json(CJ.TrackingDataToJSON($))} );
 });
 
 module.exports = router;

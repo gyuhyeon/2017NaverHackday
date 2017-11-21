@@ -40,7 +40,9 @@ router.post('/testpostrequest', function(req, res, next){
 });
 
 
-module.exports = router; //sets a single "router" object to export and expose to global namespace where it's called.
-//Same as exports = router;
-//Same as module.exports.router = router;
-//Also same as module.exports = {router: router};
+module.exports = router; // sets a single "router" object to export and expose to global namespace where it's called.
+// Same as exports = router;
+// below is similar, but you'll have to do
+// const dashboard = require('./routes/dashboard'); app.use('/dashboard',dashboard.router);
+// module.exports.router = router;
+// Also same as module.exports = {router: router};

@@ -17,10 +17,30 @@ $(document).ready(function() {
 			encode      : true
 		})
 			// using the done promise callback
-			.done(function(data) {
+			.done((res) => {
 				// log data to the console so we can see
-				console.log(data); 
-				// here we will handle errors and validation messages
+				// data == {success:true/false, data:[] td data in 4 cycles}
+				if(res.success != true){
+					$('span.result_table')[0].innerHTML = "";
+					alert("배송 준비중이거나 잘못된 송장번호입니다!");
+				}
+				else{
+					let innerHTML = "<table>";
+					for(let i = 0; i<res.data.length; ++i){
+						if(i%4==0){
+							innerHTML += "<tr>";
+						}
+						innerHTML += "<td>"+res.data[i]+"</td>";
+						if(i%4==3){
+							innerHTML += "</tr>";
+						}
+					}
+					innerHTML += "</table>";
+					$('span.result_table')[0].innerHTML = innerHTML;
+				}
+			})
+			.fail((jqXHR,textStatus, errorThrown) => {
+				alert("Something went wrong when requesting for response to server :(");
 			});
 		
 		event.preventDefault();

@@ -5,7 +5,7 @@ const config = require('../config');
 const mysqlConfig = config.mysqlConfig;
 //var connection = mysql.createConnection(mysqlConfig);
 
-console.log(mysqlConfig); //testing config import
+// console.log(mysqlConfig); //testing config import
 
 //New member join request through POST with variables 'jointype, user_id, user_pw, name, cellphone' in json.
 

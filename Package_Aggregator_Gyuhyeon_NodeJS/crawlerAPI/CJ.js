@@ -32,11 +32,11 @@ class CJ{
             .each((index, elem) => {
                 if(index > 3 && index % 4 == 2){
                     //this is the weird td inside table part
-                    let data = $(element).find('td').eq(0).text()+'\n'+$(element).find('td').eq(1).text();
+                    let data = $(elem).find('td').eq(0).text()+'\n'+$(elem).find('td').eq(1).text();
                     res.data.push(data);
                 }
                 else{
-                    let data = $(element).text();
+                    let data = $(elem).text();
                     res.data.push(data);
                 }
         });

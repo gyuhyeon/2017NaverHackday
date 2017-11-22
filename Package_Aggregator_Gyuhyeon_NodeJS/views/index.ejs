@@ -51,7 +51,14 @@
 						<form name="query" id="query">
 							<div class="row uniform 50%">
 								<div class="9u 12u(mobilep)">
-									<input type="text" name="trackingnum" id="trackingnum" value="" placeholder="송장번호를 입력하세요." />
+									
+									<select name="companycode" id="companycode" style="display:inline-block;width:25%">
+										<option value="CJ">CJ 택배</option>
+										<option value="KPOST">우체국 택배</option>
+										<option value="LOGEN">로젠 택배</option>
+									</select>
+									
+									<input type="text" name="trackingnum" id="trackingnum" style="display:inline-block;width:70%" value="" placeholder="송장번호를 입력하세요." />
 								</div>
 								<div class="3u 12u(mobilep)">
 									<input type="button" value="Search" id="search" class="button" />

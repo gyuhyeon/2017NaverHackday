@@ -1,11 +1,19 @@
-//main script that will be used for query/signin/dashboard functionalities
+// main script that will be used for query/signin/dashboard functionalities
+
+function parseDataToTable(){
+
+}
+
 $(document).ready(function() {
+	// #search button click invokes submit on #query form.
 	$('#search').click(function(event){
 		$('#query').submit();
 	});
+	// overrides default #query form action.
 	$('#query').submit(function(event){
 		var formData = {
-			trackingnum : $('input[name="trackingnum"]').val()
+			trackingnum : $('input[name="trackingnum"]').val(),
+			companycode : $('select[name="companycode"]').val()
 		};
 
 		// process the form
@@ -16,13 +24,14 @@ $(document).ready(function() {
 			dataType    : 'json', // what type of data do we expect back from the server
 			encode      : true
 		})
-			// using the done promise callback
+			// using the done promise callback, render out the new result
 			.done((res) => {
 				// log data to the console so we can see
 				// data == {success:true/false, data:[] td data in 4 cycles}
-				if(res.success != true){
-					$('span.result_table')[0].innerHTML = "";
+				if(res.success != true){ // note : it should be != true, not == false. false doesn't account for undefined and etc issues.
+					$('span.result_table')[0].innerHTML = ""; // erase table if there was previous result
 					alert("배송 준비중이거나 잘못된 송장번호입니다!");
+					console.log(res.errmsg);
 				}
 				else{
 					let innerHTML = "<table>";

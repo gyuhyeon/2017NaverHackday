@@ -18,21 +18,32 @@ class CJ{
                 // CJ page is EUC-KR. Always look at headers first.
             }
         };
-        return request(options).catch(this.ErrorHandler);
+        return request(options); // if .catch() is chained, CreateQueryPromise(tn).catch() won't be invoked.
     }
     static TrackingDataToJSON($){ // test impl to see if it works
-        let res = {success:true, data:[]};
+        let res = {success:false, data:[], errmsg:""};
         // if there's no such tracking number
         if($('table').eq(0).text().indexOf('미등록운송장') > -1){
             res.success = false;
+            res.errmsg = "CJ response : 미등록운송장";
             return res;
         }
         // if there's a query result
         $('table').eq(6).children('tbody').children('tr').children('td')
             .each((index, elem) => {
+                res.success = true; // redundant to do over and over again, but doesn't really matter
                 if(index > 3 && index % 4 == 2){ // except table headers, all 3rd columns need special treatment
                     // this is the weird td inside table part
-                    let data = $(elem).find('td').eq(0).text()+'<br>'+$(elem).find('td').eq(1).text().match(/\(.*\)/i)[0];
+                    let phonenum = "";
+                    if($(elem).find('td').eq(1).text().match(/\([ -]*[0-9]+[ 0-9-]*\)/i)!=null){
+                        phonenum += "<br>"+$(elem).find('td').eq(1).text().match(/\([ -]*[0-9]+[ 0-9-]*\)/i)[0];
+                        // regex above matches numbers and/or dashes inside brackets. However, there needs to be at least one number, and preceding may or may not with numbers/dashes/whitespace.
+                        // (-1800-8000) : match
+                        // (18008000) : match
+                        // ( - 1800 - 8000) : match
+                        // (- -) : doesn't match
+                    }
+                    let data = $(elem).find('td').eq(0).text()+phonenum;
                     res.data.push(data);
                 }
                 else{ // normal single td data

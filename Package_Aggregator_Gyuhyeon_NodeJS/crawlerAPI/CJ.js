@@ -30,12 +30,12 @@ class CJ{
         // if there's a query result
         $('table').eq(6).children('tbody').children('tr').children('td')
             .each((index, elem) => {
-                if(index > 3 && index % 4 == 2){
-                    //this is the weird td inside table part
-                    let data = $(elem).find('td').eq(0).text()+'\n'+$(elem).find('td').eq(1).text();
+                if(index > 3 && index % 4 == 2){ // except table headers, all 3rd columns need special treatment
+                    // this is the weird td inside table part
+                    let data = $(elem).find('td').eq(0).text()+'<br>'+$(elem).find('td').eq(1).text().match(/\(.*\)/i)[0];
                     res.data.push(data);
                 }
-                else{
+                else{ // normal single td data
                     let data = $(elem).text();
                     res.data.push(data);
                 }

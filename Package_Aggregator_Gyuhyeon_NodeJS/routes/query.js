@@ -4,7 +4,6 @@ const router = express.Router();
 const mysql = require('mysql');
 const CJ = require('../crawlerAPI/CJ');
 const KPOST = require('../crawlerAPI/KPOST');
-
 const config = require('../config');
 
 
@@ -14,7 +13,7 @@ let connection;
 
 //handleDisconnect keeps the mysql connection alive for this route
 function handleDisconnect(){
-    connection = mysql.createConnection(config.mysqlConfig);
+    connection = mysql.createConnection(mysqlConfig);
     connection.connect(function(err){
         if(err){
             console.log("error connecting to db: ", err);
@@ -48,19 +47,19 @@ router.get('/', function(req, res, next) {
     else { // normal user input
         if (req.query.companycode == "CJ") {
             CJ.CreateQueryPromise(req.query.trackingnum)
-            .then( ($) => {res.json(CJ.TrackingDataToJSON($))} )
-            .catch( (err) => {res.json({success:false, errmsg:err})} );
+            .then( ($) => { res.json(CJ.TrackingDataToJSON($))} )
+            .catch( (err) => { res.json({success:false, errmsg:err})} );
         }
         else if (req.query.companycode == "KPOST") {
             KPOST.CreateQueryPromise(req.query.trackingnum)
-            .then( ($) => {res.json(KPOST.TrackingDataToJSON($))} )
-            .catch( (err) => {res.json({success:false, errmsg:err})} );
+            .then( ($) => { res.json(KPOST.TrackingDataToJSON($))} )
+            .catch( (err) => { res.json({success:false, errmsg:err})} );
         }
         else if (req.query.companycode=="LOGEN") {
-            res.json( {success:false, errmsg:"로젠택배 구현중"} );
+            res.json( { success:false, errmsg:"로젠택배 구현중" } );
         }
         else{
-            res.json( {success:false, errmsg:"해당 택배사는 구현계획이 없습니다."} );
+            res.json( { success:false, errmsg:"해당 택배사는 구현계획이 없습니다." } );
         }
     }
 });

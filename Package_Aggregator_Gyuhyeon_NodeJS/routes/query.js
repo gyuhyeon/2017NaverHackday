@@ -82,7 +82,7 @@ router.get('/', function(req, res, next) {
                                 }
                                 else{
                                     if(cursor.length > 0){
-                                        connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=?;", [ret.data.status.toString(), JSON.stringify(ret.data.history), "ON", req.query.phonenum.toString()], function(err, cur){
+                                        connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=? WHERE trackingnum=?;", [ret.data.status.toString(), JSON.stringify(ret.data.history), "ON", req.query.phonenum.toString(), ret.data.trackingnum.toString()], function(err, cur){
                                             if(err != null){
                                                 console.log("Error when fetching from DB - internal error");
                                                 console.log(err);
@@ -127,7 +127,7 @@ router.get('/', function(req, res, next) {
                                 else{
                                     console.log(cursor.length);
                                     if(cursor.length > 0){
-                                        connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=?;", [ret.data.status.toString(), JSON.stringify(ret.data.history), "ON", req.query.phonenum.toString()], function(err, cur){
+                                        connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=? WHERE trackingnum=?;", [ret.data.status.toString(), JSON.stringify(ret.data.history), "ON", req.query.phonenum.toString(), ret.data.trackingnum.toString()], function(err, cur){
                                             if(err != null){
                                                 console.log("Error when fetching from DB - internal error");
                                                 console.log(err);

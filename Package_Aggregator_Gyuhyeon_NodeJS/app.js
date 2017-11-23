@@ -7,9 +7,9 @@ const cookieParser = require('cookie-parser');
 
 const twilio = require('twilio');
 const mysql = require('mysql');
-const config = require('../config');
-const CJ = require('../crawlerAPI/CJ');
-const KPOST = require('../crawlerAPI/KPOST');
+const config = require('./config');
+const CJ = require('./crawlerAPI/CJ');
+const KPOST = require('./crawlerAPI/KPOST');
 
 const index = require('./routes/index');
 const query = require('./routes/query');
@@ -80,65 +80,87 @@ handleDisconnect();
 
 
 // always-looping service : check for updates for all pending delivery logs
-let prevlog = {}; // { trackingnum: { companycode: XX, phonenum: XXX, history: string(json) }, trackingnum: {}... }
+
 function checkUpdate() {
     try{
         // TODO : consider npm promise-mysql
-        connection.query('SELECT * FROM DeliveryLog WHERE status != "배달완료" AND noti = "ON"', function (error, cursor) {
+        connection.query("SELECT * FROM DeliveryLog WHERE status != '배달완료' AND noti = 'ON';", function (error, cursor) {
             if (error != null){
                 console.log("DB query failed:");
                 console.log(error);
             }
             else{ // fetched all entries that are pending
-                let newlog = {};
+                let prevlog = {}; // { trackingnum: { companycode: XX, phonenum: XXX, history: string(json) }, trackingnum: {}... }
                 // for all entries, perform crawling.
                 for (let i = 0; i < cursor.length; ++i) {
-                    
-                    if (prevlog[cursor[i].trackingnum] === undefined){
-                        // there's no prevlog. This is new addition, so put it in global var prevlog for tracking.
-                        // this only happens once.
-                        prevlog[cursor[i].trackingnum] = {}; // new object.
-                        prevlog[cursor[i].trackingnum].companycode = cursor[i].companycode;
-                        prevlog[cursor[i].trackingnum].phonenum = cursor[i].phonenum;
-                        // history is an array of objects. [{}, {}, {}]. Use JSON.stringify when storing in DB,
-                        // Use JSON.parse when fetching and interpreting from DB. that will change it to Javascript Object.
-                        prevlog[cursor[i].trackingnum].history = JSON.parse(cursor[i].history);
-                    }
-                    // in newlog, put in the current history at key "trackingnum" for comparison.
-                    newlog[cursor[i].trackingnum] = {}; // new object.
-                    newlog[cursor[i].trackingnum].companycode = cursor[i].companycode;
-                    newlog[cursor[i].trackingnum].phonenum = cursor[i].phonenum;
-                    newlog[cursor[i].trackingnum].history = JSON.parse(cursor[i].history);
 
-                    if (cursor[i].companycode == CJ) {
+                    // in newlog, put in the current history at key "trackingnum" for comparison.
+                    prevlog[cursor[i].trackingnum] = {}; // new object.
+                    prevlog[cursor[i].trackingnum].companycode = cursor[i].companycode;
+                    prevlog[cursor[i].trackingnum].phonenum = cursor[i].phonenum;
+                    prevlog[cursor[i].trackingnum].history = JSON.parse(cursor[i].history);
+
+                    if (cursor[i].companycode == "CJ") {
                         CJ.CreateQueryPromise(cursor[i].trackingnum)
                         .then( ($) => { 
                             let res = CJ.TrackingDataToJSON($);
-                            if (res.data.success) {
+                            if (res.success) {
                                 if (res.data.history.length != prevlog[res.data.trackingnum].history.length) {
                                     // something changed.
                                     let lastindex = res.data.history.length - 1;
-                                    try{
-                                        sendSMS(prevlog[res.data.trackingnum].phonenum, "택배 현황 업데이트 : " + res.data.history[lastindex].note);
-                                        connection.query('UPDATE DeliveryLog SET wasnotified="Y" WHERE trackingnum='+res.data.trackingnum, function(err, cursor){
-                                            co
-                                        });
-                                    }
-                                    catch(e){
-                                        console.log("SMS failed");
-                                    }
-                                    finally{
-                                        delete(prevlog[res.data.trackingnum]);
-                                    }
+
+                                    // Try updating the DB with new history, and if it succeeds, notify the user.
+                                    connection.query("UPDATE DeliveryLog SET status=?, history=? WHERE trackingnum=?;",[res.data.status, JSON.stringify(res.data.history), res.data.trackingnum], function(err, cursor){
+                                        if(err != null){
+                                            // something went wrong. Don't notify the user yet.
+                                        }
+                                        else{
+                                            // send notification to user, because there's no chance of duplicate update messages sending.
+                                            try{
+                                                sendSMS(prevlog[res.data.trackingnum].phonenum, "택배 현황 업데이트 : " + res.data.history[lastindex].note);
+                                            }
+                                            catch(e){
+                                                console.log("SMS failed");
+                                            }
+                                        }
+                                    });
                                 }
                             }
                         })
                         .catch( (err) => { 
-                            res.json({ success:false, errmsg:err }) 
+                            console.log("Something went wrong went trying to crawl update");
                         });
                     }
-                    else if (cursor[i].companycode == KPOST) {
+                    else if (cursor[i].companycode == "KPOST") {
+                        KPOST.CreateQueryPromise(cursor[i].trackingnum)
+                        .then( ($) => { 
+                            let res = KPOST.TrackingDataToJSON($);
+                            if (res.success) {
+                                if (res.data.history.length != prevlog[res.data.trackingnum].history.length) {
+                                    // something changed.
+                                    let lastindex = res.data.history.length - 1;
 
+                                    // Try updating the DB with new history, and if it succeeds, notify the user.
+                                    connection.query("UPDATE DeliveryLog SET history=? WHERE trackingnum=?;",[JSON.stringify(res.data.history), res.data.trackingnum], function(err, cursor){
+                                        if(err != null){
+                                            // something went wrong. Don't notify the user yet.
+                                        }
+                                        else{
+                                            // send notification to user, because there's no chance of duplicate update messages sending.
+                                            try{
+                                                sendSMS(prevlog[res.data.trackingnum].phonenum, "택배 현황 업데이트 : " + res.data.history[lastindex].note);
+                                            }
+                                            catch(e){
+                                                console.log("SMS failed");
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        })
+                        .catch( (err) => { 
+                            console.log("Something went wrong went trying to crawl update");
+                        });
                     }
                 }
             }
@@ -149,7 +171,7 @@ function checkUpdate() {
         console.log(e);
     }
 }
-setInterval(30000, checkUpdate);
+setInterval(checkUpdate, 30000);
 
 
 // catch 404 and forward to error handler

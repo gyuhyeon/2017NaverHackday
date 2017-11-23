@@ -35,7 +35,7 @@ class KPOST {
                              history:[ { 'date':'0000-00-00', 'time':'00:00', 'location':string, 'note':string }, { ... }, { ... } ]
                             }
                 */
-                data: { trackingnum: "", sender: "", receiver: "", status: "", history: [] },
+                data: { companycode: "KPOST", trackingnum: "", sender: "", receiver: "", status: "", history: [] },
                 errmsg: "" 
             };
             let page = $('#print').eq(0); // div id="print" that wraps the whole page
@@ -61,7 +61,7 @@ class KPOST {
             console.log("Testing : 받는이 will be : [" + res.data.sender + "] when empty"); // dev
             if (res.data.sender.length == 0 || res.data.sender == "" || res.data.sender.match(/[ \n]*/i) == res.data.sender.match(/[ \n]*/i).input){
                 res.success = false;
-                res.errmsg = "KPOST response : 미등록운송장";
+                res.errmsg = "본 송장번호는 미등록운송장입니다.";
                 return res;
             }
             else{
@@ -87,7 +87,7 @@ class KPOST {
             return res;
         }
         catch(err) { //in case the server was down, and things broke when accessing dom elements
-            let res = { success: false, data: [], err: err, errmsg: "Fatal exit in TrackingDataToJson(KPOST)"};
+            let res = { success: false, data: [], err: err, errmsg: "우체국 배송서버가 다운되었습니다."};
             return res;
         }
     }

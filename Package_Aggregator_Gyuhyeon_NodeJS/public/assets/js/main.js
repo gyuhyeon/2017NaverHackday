@@ -49,7 +49,9 @@ $(document).ready(function() {
 	$('#query').submit(function(event) {
 		var formData = {
 			trackingnum : $('input[name="trackingnum"]').val(),
-			companycode : $('select[name="companycode"]').val()
+			companycode : $('select[name="companycode"]').val(),
+			phonenum : $('input[name="phonenum"]').val(),
+			recaptcharesponse : grecaptcha.getResponse()
 		};
 
 		// process the form
@@ -67,7 +69,12 @@ $(document).ready(function() {
 				// data == {success:true/false, data:[] td data in 4 cycles}
 				if(res.success != true){ // note : it should be != true, not == false. false doesn't account for undefined and etc issues.
 					$('span.result_table')[0].innerHTML = ""; // erase table if there was previous result
-					alert("배송 준비중이거나 잘못된 송장번호입니다!");
+					if(res.errmsg==""){
+						alert("배송 준비중입니다.");
+					}
+					else{
+						alert(res.errmsg);
+					}
 					console.log(res.errmsg);
 				}
 				else{

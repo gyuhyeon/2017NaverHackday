@@ -37,14 +37,14 @@ class CJ {
                              history:[ { 'date':'0000-00-00', 'time':'00:00', 'location':string, 'note':string }, { ... }, { ... } ]
                             }
                 */
-                data: { trackingnum: "", sender: "", receiver: "", status: "", history: [] },
+                data: { companycode: "CJ", trackingnum: "", sender: "", receiver: "", status: "", history: [] },
                 errmsg: "" 
             };
 
             // if there's no such tracking number or the page didn't load correctly and can't even find default string "운송장"
             if($('table').eq(0).text().indexOf('미등록운송장') > -1 || $('table').eq(0).text().indexOf('운송장') < 0){
                 res.success = false;
-                res.errmsg = "CJ response : 미등록운송장";
+                res.errmsg = "본 송장번호는 미등록운송장입니다.";
                 return res;
             }
             // else : there's a tracking number. Don't exit, and parse out the tracking number
@@ -87,7 +87,7 @@ class CJ {
         }
         catch(err) { // in case the server was down, and things broke when accessing dom elements
             console.log(err);
-            let res = { success: false, data: [], err: err, errmsg: "Fatal exit in TrackingDataToJson(CJ)" };
+            let res = { success: false, data: [], err: err, errmsg: "CJ 배송서버가 다운되었습니다." };
             return res;
         }
     }

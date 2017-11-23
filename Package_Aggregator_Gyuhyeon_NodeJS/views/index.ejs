@@ -7,6 +7,7 @@
 		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
 		<link rel="stylesheet" href="/assets/css/main.css" />
 		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<script src='https://www.google.com/recaptcha/api.js'></script>
 	</head>
 	<body class="landing">
 		<div id="page-wrapper" style="background-color: rgb(202,200,200);">
@@ -63,6 +64,11 @@
 								<div class="3u 12u(mobilep)">
 									<input type="button" value="Search" id="search" class="button" />
 								</div>
+								<br>
+								<div class="9u 12u(mobilep)">
+									<input type="text" name="phonenum" id="phonenum" style="margin-left:2%;width:50%" value="" placeholder="전화번호 입력시 문자알림" />
+								</div>
+								<div class="g-recaptcha" data-sitekey="6Le2LDoUAAAAAARZwoBi4bRWzfKsGV1iHMhT1e9j"></div>
 							</div>
 						</form>
 						<span class="result_table">

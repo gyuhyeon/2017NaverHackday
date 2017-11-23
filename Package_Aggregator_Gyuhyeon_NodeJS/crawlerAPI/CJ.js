@@ -76,7 +76,8 @@ class CJ {
                     }
 
                     let td =$(elem).children('td');
-                    res.data.history.push({date:td.eq(0).text(), time: td.eq(1).text(), location: $(elem).find('table td').eq(0).text() + phonenum, note: td.eq(3).text()});
+                    // CJ's history is most recent to front(top) of table. Let's reverse that.
+                    res.data.history.unshift({date:td.eq(0).text(), time: td.eq(1).text(), location: $(elem).find('table td').eq(0).text() + phonenum, note: td.eq(3).text()});
                     
                     
                 }

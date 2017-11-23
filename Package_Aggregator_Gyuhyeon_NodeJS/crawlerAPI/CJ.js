@@ -54,7 +54,7 @@ class CJ {
                     res.data.trackingnum = $('table').eq(0).text().match(/[0-9]+/i)[0]
                 }
                 if ($('table').eq(0).text().match(/\(.*\)/i) != null) {
-                    res.data.status = $('table').eq(0).text().match(/\(.*\)/i)[0];
+                    res.data.status = $('table').eq(0).text().match(/\(.*\)/i)[0].replace(/[()]/g,"");
                 }
             }
 

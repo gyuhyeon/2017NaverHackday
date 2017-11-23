@@ -125,6 +125,7 @@ router.get('/', function(req, res, next) {
                                     console.log("Error when fetching from DB - internal error");
                                 }
                                 else{
+                                    console.log(cursor.length);
                                     if(cursor.length > 0){
                                         connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=?;", [ret.data.status, JSON.stringify(ret.data.history), "ON", req.query.phonenum], function(err, cur){
                                             if(err != null){

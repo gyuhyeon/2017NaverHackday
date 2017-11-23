@@ -141,7 +141,7 @@ function checkUpdate() {
                                     let lastindex = res.data.history.length - 1;
 
                                     // Try updating the DB with new history, and if it succeeds, notify the user.
-                                    connection.query("UPDATE DeliveryLog SET history=? WHERE trackingnum=?;",[JSON.stringify(res.data.history), res.data.trackingnum], function(err, cursor){
+                                    connection.query("UPDATE DeliveryLog SET status=?, history=? WHERE trackingnum=?;",[res.data.status, JSON.stringify(res.data.history), res.data.trackingnum], function(err, cursor){
                                         if(err != null){
                                             // something went wrong. Don't notify the user yet.
                                         }

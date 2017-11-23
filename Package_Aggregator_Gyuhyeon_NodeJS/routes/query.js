@@ -76,15 +76,16 @@ router.get('/', function(req, res, next) {
                             res.json(ret);
                         }
                         else{
-                            connection.query('SELECT * FROM DeliveryLog WHERE trackingnum=?', [req.query.trackingnum], function(error, cursor){
+                            connection.query('SELECT * FROM DeliveryLog WHERE trackingnum=?;', [req.query.trackingnum], function(error, cursor){
                                 if(error != null){
                                     console.log("Error when fetching from DB - internal error");
                                 }
                                 else{
                                     if(cursor.length > 0){
-                                        connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=?", [ret.data.status, ret.data.history, "ON", req.query.phonenum], function(err, cur){
+                                        connection.query("UPDATE DeliveryLog SET status=?, history=?, noti=?, phonenum=?;", [ret.data.status, JSON.stringify(ret.data.history), "ON", req.query.phonenum], function(err, cur){
                                             if(err != null){
                                                 console.log("Error when fetching from DB - internal error");
+                                                console.log(err);
                                                 res.json( { success:false, errmsg:"조회중 문제가 발생하였습니다." } );
                                             }
                                             else{
@@ -93,9 +94,10 @@ router.get('/', function(req, res, next) {
                                         });
                                     }
                                     else{
-                                        connection.query("INSERT INTO DeliveryLog(companycode, trackingnum, sender, receiver, status, history, noti, phonenum) VALUES(?,?,?,?,?,?,?,?)", [ret.data.companycode, ret.data.trackingnum, ret.data.sender, ret.data.receiver, ret.data.status, ret.data.history, "ON", req.query.phonenum], function(err, cur){
+                                        connection.query("INSERT INTO DeliveryLog(companycode, trackingnum, sender, receiver, status, history, noti, phonenum) VALUES(?,?,?,?,?,?,?,?);", [ret.data.companycode, ret.data.trackingnum, ret.data.sender, ret.data.receiver, ret.data.status, JSON.stringify(ret.data.history), "ON", req.query.phonenum], function(err, cur){
                                             if(err != null){
                                                 console.log("Error when fetching from DB - internal error");
+                                                console.log(err);
                                                 res.json( { success:false, errmsg:"조회중 문제가 발생하였습니다." } );
                                             }
                                             else{

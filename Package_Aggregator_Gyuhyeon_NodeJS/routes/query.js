@@ -56,10 +56,10 @@ router.get('/', function(req, res, next) {
         let options = {
             method: "POST",
             uri: "https://www.google.com/recaptcha/api/siteverify",
-            body: form,
+            body: form
         };
         request(options).then((body) => {
-            console.log(body);
+            //console.log(body);
             if (body.success !== undefined && !body.success) {
                 res.json( { success: false, errmsg: "캡챠가 실패하였습니다. 다시 시도해주세요." } );
             }

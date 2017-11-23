@@ -1,16 +1,52 @@
 // main script that will be used for query/signin/dashboard functionalities
 
-function parseDataToTable(){
+function parseDataToTable(data) {
+	let innerHTML = "";
 
+	// render basic info table header
+	innerHTML += "<table>";
+	let header = ["송장번호", "보내는분", "받는분", "배달결과"];
+	innerHTML += "<tr>";
+	for (let i = 0; i < header.length; ++i) {
+		innerHTML += "<td>" + header[i] + "</td>";
+	}
+	innerHTML += "</tr>";
+	// render basic info table data
+	let headerkey = ["trackingnum", "sender", "receiver", "status"];
+	innerHTML += "<tr>";
+	for (let i = 0; i < headerkey.length; ++i) {
+		innerHTML += "<td>" + data[headerkey[i]] + "</td>";
+	}
+	innerHTML += "</tr>";
+
+	// render history info table header
+	innerHTML += "<br><table>";
+	header = ["일자", "시각", "위치", "비고"];
+	innerHTML += "<tr>";
+	for (let i = 0; i < header.length; ++i) {
+		innerHTML += "<td>" + header[i] + "</td>";
+	}
+	innerHTML += "</tr>";
+	// render history info table data
+	headerkey = ["date", "time", "location", "note"];
+	for (let i = 0; i < data.history.length; ++i) {
+		innerHTML += "<tr>";
+		for (let j = 0; j < headerkey.length; ++j) {
+			innerHTML += "<td>" + data.history[i][headerkey[j]] + "</td>";
+		}
+		innerHTML += "</tr>";
+	}
+	innerHTML += "</table>";
+	$('span.result_table')[0].innerHTML = innerHTML;
 }
 
 $(document).ready(function() {
 	// #search button click invokes submit on #query form.
-	$('#search').click(function(event){
+	$('#search').click(function(event) {
 		$('#query').submit();
 	});
 	// overrides default #query form action.
-	$('#query').submit(function(event){
+	$('#query').submit(function(event) {
 		var formData = {
 			trackingnum : $('input[name="trackingnum"]').val(),
 			companycode : $('select[name="companycode"]').val()
@@ -26,6 +62,7 @@ $(document).ready(function() {
 		})
 			// using the done promise callback, render out the new result
 			.done((res) => {
+				
 				// log data to the console so we can see
 				// data == {success:true/false, data:[] td data in 4 cycles}
 				if(res.success != true){ // note : it should be != true, not == false. false doesn't account for undefined and etc issues.
@@ -34,18 +71,7 @@ $(document).ready(function() {
 					console.log(res.errmsg);
 				}
 				else{
-					let innerHTML = "<table>";
-					for(let i = 0; i<res.data.length; ++i){
-						if(i%4==0){
-							innerHTML += "<tr>";
-						}
-						innerHTML += "<td>"+res.data[i]+"</td>";
-						if(i%4==3){
-							innerHTML += "</tr>";
-						}
-					}
-					innerHTML += "</table>";
-					$('span.result_table')[0].innerHTML = innerHTML;
+					parseDataToTable(res.data);
 				}
 			})
 			.fail((jqXHR,textStatus, errorThrown) => {

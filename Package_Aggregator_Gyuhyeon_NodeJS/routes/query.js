@@ -57,7 +57,6 @@ router.get('/', function(req, res, next) {
             method: "POST",
             uri: "https://www.google.com/recaptcha/api/siteverify",
             body: form,
-            json: true
         };
         request(options).then((body) => {
             console.log(body);

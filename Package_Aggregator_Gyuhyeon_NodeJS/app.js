@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 
 
 const index = require('./routes/index');
+const query = require('./routes/query');
 const dashboard = require('./routes/dashboard');
 const login = require('./routes/login');
 
@@ -24,10 +25,13 @@ app.use(bodyParser.urlencoded({ extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public'))); //the folder "public" should have the resources ejs templates will be using(js, css..)
 
-//website routing(requests)
-app.use('/', index); //show main landing page & search bar
-app.use('/dashboard', dashboard); //show user 'profiles'
-app.use('/login', login);
+// website routing(requests)
+app.use('/', index); // show main landing page & search bar
+app.use('/query', query); // query API
+
+// not implemented. If implemented, this section would provide personalized dashboard to users
+app.use('/dashboard', dashboard); // show user 'profiles'
+app.use('/login', login); 
 
 
 

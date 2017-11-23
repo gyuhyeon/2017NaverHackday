@@ -80,7 +80,7 @@ class KPOST {
             detail.find('tbody > tr')
                 .each((index, elem) => {
                     let td = $(elem).children('td');
-                    res.data.history.push({ date: td.eq(0).text(), time: td.eq(1).text(), location: td.eq(2).text(), note :td.eq(3).text()});
+                    res.data.history.push({ date: td.eq(0).text().replace(/[.]/g, "-"), time: td.eq(1).text(), location: td.eq(2).text(), note :td.eq(3).text()});
                 });
             
             //slightly different from jquery. cannot access/iterate by index. $('td').eq(0) works, though.

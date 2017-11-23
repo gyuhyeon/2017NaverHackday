@@ -39,7 +39,7 @@ router.get('/', function(req, res, next) {
     if (req.query.phonenum.match(/^[0-1]{3}[-]*[0-9]{4}[-]*[0-9]{4}$/i) != null) {
         isnotify = true;
     }
-    if ( isnotify == true && req.query.recaptcharesponse === undefined || req.query.recaptcharesponse === '' || req.query.recaptcharesponse === null) {
+    if ( isnotify == true && (req.query.recaptcharesponse === undefined || req.query.recaptcharesponse === '' || req.query.recaptcharesponse === null)) {
         return res.json({success: false, errmsg : "알림을 받으시려면 캡챠를 완성해주세요."});
     }
     

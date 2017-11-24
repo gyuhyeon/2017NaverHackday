@@ -13,6 +13,8 @@ const KPOST = require('./crawlerAPI/KPOST');
 
 const index = require('./routes/index');
 const query = require('./routes/query');
+const service = require('./routes/service');
+
 const dashboard = require('./routes/dashboard');
 const login = require('./routes/login');
 
@@ -32,7 +34,8 @@ app.use(express.static(path.join(__dirname, 'public'))); //the folder "public" s
 
 // website routing(requests)
 app.use('/', index); // show main landing page & search bar
-app.use('/query', query); // query API
+app.use('/query', query); // query API for internal usage
+app.use('/service', service); //service API for public usage
 
 // not implemented. If implemented, this section would provide personalized dashboard to users
 app.use('/dashboard', dashboard); // show user 'profiles'
@@ -79,8 +82,8 @@ function handleDisconnect(){
 handleDisconnect();
 
 
-// always-looping service : check for updates for all pending delivery logs
-
+// always-looping service : check for updates for all pending delivery logs and notify if something changed.
+// limitation : If the user checks manually between the time of pause(30second max at current config) and the time of actual update from the parcel server, the update will not be fired because the DB has already been changed because of the user.
 function checkUpdate() {
     try{
         // TODO : consider npm promise-mysql

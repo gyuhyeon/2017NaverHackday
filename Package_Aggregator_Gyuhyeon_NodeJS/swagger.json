@@ -1,0 +1,198 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "API for parcel tracking",
+    "version" : "1.0.0",
+    "title" : "Package Aggregator API",
+    "contact" : {
+      "email" : "mark3236@naver.com"
+    },
+    "license" : {
+      "name" : "MIT License",
+      "url" : "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/gyuhyeon5/PackageAggregator/1.0.0",
+  "tags" : [ {
+    "name" : "service",
+    "description" : "API available to regular businesses"
+  } ],
+  "schemes" : [ "https", "http" ],
+  "paths" : {
+    "/test" : {
+      "get" : {
+        "tags" : [ "service" ],
+        "summary" : "test route for get requests",
+        "description" : "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+        "operationId" : "testGet",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "querystring",
+          "in" : "query",
+          "description" : "pass a querystring to test your request",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Request OK",
+            "schema" : {
+              "$ref" : "#/definitions/TestQueryString"
+            }
+          },
+          "400" : {
+            "description" : "querystring missing"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "service" ],
+        "summary" : "test route for post requests",
+        "description" : "pass a json payload to test your request",
+        "operationId" : "testPost",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "payload",
+          "description" : "correct payload(json)",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "example" : {
+              "key1" : "value1",
+              "key2" : "value2"
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Request OK",
+            "schema" : {
+              "type" : "object",
+              "example" : {
+                "key1" : "value1",
+                "key2" : "value2"
+              },
+              "properties" : { }
+            }
+          },
+          "400" : {
+            "description" : "Invalid input, object invalid"
+          }
+        }
+      }
+    },
+    "/track" : {
+      "get" : {
+        "tags" : [ "service" ],
+        "summary" : "get tracking information for a shipping number",
+        "description" : "By passing in the tracking number and company code, fetch the shipment status\n",
+        "operationId" : "searchParcel",
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "trackingnum",
+          "in" : "query",
+          "description" : "Shipment tracking number ranging from 8 to 12 digits given by the courier",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "name" : "companycode",
+          "in" : "query",
+          "description" : "Alphabet code for courier identification. ( CJ - 대한통운, KPOST - 우체국 )",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Request OK",
+            "schema" : {
+              "type" : "object",
+              "example" : {
+                "$ref" : "#/definitions/TrackDataModel"
+              },
+              "properties" : { }
+            }
+          },
+          "400" : {
+            "description" : "Bad Request"
+          },
+          "404" : {
+            "description" : "Not Found(Parcel Server down)"
+          },
+          "418" : {
+            "description" : "I'm a teapot"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "TestQueryString" : {
+      "type" : "object",
+      "required" : [ "querystring" ],
+      "properties" : {
+        "querystring" : {
+          "type" : "string",
+          "example" : "random_sentence"
+        }
+      }
+    },
+    "TrackDataModel" : {
+      "type" : "object",
+      "required" : [ "history", "receiver", "sender", "status", "trackingnum" ],
+      "properties" : {
+        "trackingnum" : {
+          "type" : "string",
+          "example" : "6069508189467"
+        },
+        "sender" : {
+          "type" : "string",
+          "example" : "엘지 홈**"
+        },
+        "receiver" : {
+          "type" : "string",
+          "example" : "김승*"
+        },
+        "status" : {
+          "type" : "string",
+          "example" : "간선하차"
+        },
+        "history" : {
+          "type" : "array",
+          "example" : [ {
+            "date" : "2017-11-24",
+            "time" : "13:52",
+            "location" : "대구 하차장",
+            "note" : "배달완료"
+          }, {
+            "date" : "2017-10-11",
+            "time" : "04:25",
+            "location" : "서울",
+            "note" : "배달준비"
+          } ],
+          "items" : {
+            "$ref" : "#/definitions/TrackDataModel_history"
+          }
+        }
+      }
+    },
+    "TrackDataModel_history" : {
+      "properties" : {
+        "date" : {
+          "type" : "string"
+        },
+        "time" : {
+          "type" : "string"
+        },
+        "location" : {
+          "type" : "string"
+        },
+        "note" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

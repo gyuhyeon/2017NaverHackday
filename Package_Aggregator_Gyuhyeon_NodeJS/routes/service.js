@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const CJ = require('../crawlerAPI/CJ');
+const KPOST = require('../crawlerAPI/KPOST');
 
 
 /* test routes for the clients to test connection and protocol/encoding/decoding */
@@ -37,9 +39,8 @@ router.get('/track', function(req, res, next) {
         res.status(400); // bad request
         res.json( {success: false, errmsg: "COMPANY_CODE_REQUIRED"} );
     }
-
-    if (req.query.companycode == "CJ") {
-        CJ.CreateQueryPromise(req.query.trackingnum)
+    else if (req.query.companycode.toString() == "CJ") {
+        CJ.CreateQueryPromise(req.query.trackingnum.toString())
         .then( ($) => { 
             let ret = CJ.TrackingDataToJSON($);
             res.status(200);
@@ -50,7 +51,7 @@ router.get('/track', function(req, res, next) {
                     ret.errmsg = "TRACKING_NUMBER_INVALID";
                 }
                 else if(ret.errmsg.indexOf("서버") > -1) {
-                    res.status(404); // unavailable
+                    res.status(503); // unavailable
                     ret.errmsg = "PARCEL_SERVER_ERROR";
                 }
                 else{
@@ -61,12 +62,12 @@ router.get('/track', function(req, res, next) {
             res.json(ret);
         })
         .catch((err) => {
-            res.status(404); // unavailable
+            res.status(503); // unavailable
             res.json({success: false, errmsg: "PARCEL_SERVER_ERROR"});
         });
     }
-    else if (req.query.companycode == "KPOST") {
-        KPOST.CreateQueryPromise(req.query.trackingnum)
+    else if (req.query.companycode.toString() == "KPOST") {
+        KPOST.CreateQueryPromise(req.query.trackingnum.toString())
         .then( ($) => {
             let ret = KPOST.TrackingDataToJSON($);
             res.status(200);
@@ -77,7 +78,7 @@ router.get('/track', function(req, res, next) {
                     ret.errmsg = "TRACKING_NUMBER_INVALID";
                 }
                 else if(ret.errmsg.indexOf("서버") > -1) {
-                    res.status(404); // unavailable
+                    res.status(503); // unavailable
                     ret.errmsg = "PARCEL_SERVER_ERROR";
                 }
                 else{
@@ -88,7 +89,7 @@ router.get('/track', function(req, res, next) {
             res.json(ret);
         })
         .catch((err) => {
-            res.status(404); // unavailable
+            res.status(503); // unavailable
             res.json({success: false, errmsg: "PARCEL_SERVER_ERROR"});
         });
     }

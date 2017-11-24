@@ -115,6 +115,9 @@
               "properties" : { }
             }
           },
+          "204" : {
+            "description" : "Origin server content unavailable"
+          },
           "400" : {
             "description" : "Bad Request"
           },

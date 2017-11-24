@@ -51,7 +51,7 @@ router.get('/track', function(req, res, next) {
                     ret.errmsg = "TRACKING_NUMBER_INVALID";
                 }
                 else if(ret.errmsg.indexOf("서버") > -1) {
-                    res.status(503); // unavailable
+                    res.status(204); // unavailable
                     ret.errmsg = "PARCEL_SERVER_ERROR";
                 }
                 else{
@@ -62,7 +62,7 @@ router.get('/track', function(req, res, next) {
             res.json(ret);
         })
         .catch((err) => {
-            res.status(503); // unavailable
+            res.status(204); // unavailable
             res.json({success: false, errmsg: "PARCEL_SERVER_ERROR"});
         });
     }
@@ -78,7 +78,7 @@ router.get('/track', function(req, res, next) {
                     ret.errmsg = "TRACKING_NUMBER_INVALID";
                 }
                 else if(ret.errmsg.indexOf("서버") > -1) {
-                    res.status(503); // unavailable
+                    res.status(204); // unavailable
                     ret.errmsg = "PARCEL_SERVER_ERROR";
                 }
                 else{
@@ -89,7 +89,7 @@ router.get('/track', function(req, res, next) {
             res.json(ret);
         })
         .catch((err) => {
-            res.status(503); // unavailable
+            res.status(204); // unavailable
             res.json({success: false, errmsg: "PARCEL_SERVER_ERROR"});
         });
     }

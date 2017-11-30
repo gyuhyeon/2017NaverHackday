@@ -16,6 +16,7 @@
 - 깔끔한 프론트엔드
 
 # Backlog
+- nginx 웹서버 프록시 구성(노드서버 standalone에 비해 안정성 향상)
 - Travis/Jenkins CI 연계
 - Dockerize
 - Penetration testing
@@ -28,7 +29,8 @@
   
 ![Website capture](./static_presentation/webpage.png)
 - 데모 링크 서버는 이벤트 종료 후 [Ncloud](https://www.ncloud.com/) 인스턴스가 삭제되면 사라집니다.
-- Node.js & Express & ejs 스택으로 프론트엔드에 렌더링되어 제공됩니다. 배송정보의 경우는 jQuery ajax로 업데이트됩니다.  
+- Node.js & Express & ejs 스택으로 프론트엔드에 렌더링되어 제공됩니다.
+- 배송정보는 서버에서 크롤링하여 파싱한 뒤 jQuery async로 현재창에 즉시 업데이트됩니다.  
 - DB는 MySQL입니다.
 - Twilio API로 사용자들에게 SMS 서비스를 제공합니다. 배송조회시 원하면 전화번호를 기입하여, 서버가 주기적으로(1회/30초) 크롤링하고 자체DB와 비교하여 변경사항이 있을 시 문자알림을 전송합니다.
 - 아래 이미지는 본 행사기간동안 테스트/개발하며 구상하게 된 DB의 스키마 및 실제 정보 일부를 담고 있습니다.  

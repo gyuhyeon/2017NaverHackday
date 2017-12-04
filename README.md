@@ -1,8 +1,13 @@
 # Package_Aggregator : 다중 배송조회 서비스
 [![Build Status](https://travis-ci.org/gyuhyeon/2017NaverHackday.svg?branch=master)](https://travis-ci.org/gyuhyeon/2017NaverHackday) 
-[![Maintainability](http://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)](http://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)  
+[![Maintainability](https://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)](https://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)  
 24시간 네이버 [핵데이](https://github.com/NAVER-CAMPUS-HACKDAY/common) 행사를 통해 개발하였습니다.  
+  
+### Update(2017.12.04)
 travis-ci 입문용으로 jshint로 유닛테스트를 대체하였고, codeclimate로 코드 건전성 테스트를 시행합니다.  
+jshint에서 문제시되는 부분이 존재하여 build failing이 뜨는 것은 의도한 바입니다.  
+Codeclimate 배지는 가끔 표기되지 않는 에러가 있습니다(codeclimate측 오류).
+
 # Keywords (완료)
 ## 보안
 - Google reCaptcha API
@@ -18,8 +23,8 @@ travis-ci 입문용으로 jshint로 유닛테스트를 대체하였고, codeclim
 - 깔끔한 프론트엔드
 
 # Backlog
-- nginx 웹서버 프록시 구성(노드서버 standalone에 비해 안정성 향상)
-- Travis/Jenkins CI 연계
+- nginx 웹서버 프록시 구성(노드서버 standalone에 비해 안정성 향상) (2017.12.04 구성 완료)
+- Travis/Jenkins CI 연계 (2017.12.04 부분적 시험)
 - Dockerize
 - Penetration testing
 - 택배사/중계사 공식 API 사용하여 챗봇 서비스 개발
@@ -27,7 +32,7 @@ travis-ci 입문용으로 jshint로 유닛테스트를 대체하였고, codeclim
 - 로그인 구현시 개인정보 암호화
   
 # About
-데모 링크는 다음과 같습니다 : [naverhackday.xyz](http://naverhackday.xyz).  
+데모 링크는 다음과 같습니다 : [~~naverhackday.xyz~~](http://naverhackday.xyz) [gyuhyeonlee.com/delivery](http://gyuhyeonlee.com/delivery)
   
 ![Website capture](./static_presentation/webpage.png)
 - 데모 링크 서버는 이벤트 종료 후 [Ncloud](https://www.ncloud.com/) 인스턴스가 삭제되면 사라집니다.
@@ -45,8 +50,8 @@ travis-ci 입문용으로 jshint로 유닛테스트를 대체하였고, codeclim
 ![Model](./static_presentation/datamodel.png)
   
 - 2개의 택배사를 모아 정상적으로 동작하는 검색 시스템을 구현하였습니다.
-(해당 프론트엔드는 위에 캡쳐 첨부되어있고, [naverhackday.xyz](http://naverhackday.xyz))에서 확인해볼 수 있습니다..
-- 비즈니스 사용자/개발자를 위한 RESTful한 API 창구를 별도로 만들었습니다. API상세는 [SwaggerUI](https://app.swaggerhub.com/apis/gyuhyeon5/PackageAggregator/1.0.0)에서 확인할 수 있으며, 이에 대한 웹사이트 route는 현재 [naverhackday.xyz/service/track](http://naverhackday.xyz/service/track)에서 제공되고 있습니다.  
+(해당 프론트엔드는 위에 캡쳐 첨부되어있고, [~~naverhackday.xyz~~](http://naverhackday.xyz) [gyuhyeonlee.com/delivery](http://gyuhyeonlee.com/delivery)에서 확인해볼 수 있습니다..
+- 비즈니스 사용자/개발자를 위한 RESTful한 API 창구를 별도로 만들었습니다. API상세는 [SwaggerUI](https://app.swaggerhub.com/apis/gyuhyeon5/PackageAggregator/1.0.0)에서 확인할 수 있으며, 이에 대한 웹사이트 route는 현재 [~~naverhackday.xyz~~](http://naverhackday.xyz) [gyuhyeonlee.com/service/track](http://gyuhyeonlee.com/service/track)에서 제공되고 있습니다.  
 - 변경사항이 있을 경우 알림을 받기 원한다면 SMS 알림 서비스를 제공합니다 :  
   
 ![SMS](./static_presentation/notification.png)  

@@ -1,11 +1,11 @@
 # Package_Aggregator : 다중 배송조회 서비스
 [![Build Status](https://travis-ci.org/gyuhyeon/2017NaverHackday.svg?branch=master)](https://travis-ci.org/gyuhyeon/2017NaverHackday) 
-[![Maintainability](https://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)](https://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)  
+![license](https://img.shields.io/github/license/gyuhyeon/2017NaverHackday.svg) [![Maintainability](https://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)](https://api.codeclimate.com/v1/badges/1e3e15ac27ef782ee39c/maintainability)  
 24시간 네이버 [핵데이](https://github.com/NAVER-CAMPUS-HACKDAY/common) 행사를 통해 개발하였습니다.  
   
 ### Update(2017.12.04)
 travis-ci 입문용으로 jshint로 유닛테스트를 대체하였고, codeclimate로 코드 건전성 테스트를 시행합니다.  
-jshint에서 문제시되는 부분이 존재하여 build failing이 뜨는 것은 의도한 바입니다.  
+jshint에서 문제시되는 부분이 존재하여 **build failing이 뜨는 것은 의도한 바입니다.**  
 Codeclimate 배지는 가끔 표기되지 않는 에러가 있습니다(codeclimate측 오류).
 
 # Keywords (완료)
